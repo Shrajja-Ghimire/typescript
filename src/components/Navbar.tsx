@@ -1,23 +1,61 @@
-import { Link } from "react-router";
-import logo from "../assets/logo.jpg";
+import { Link,NavLink,useNavigate } from "react-router";
+import logo from "../assets/logo.png";
 import Genre from "./Genre";
-const Navbar = () => {
-  return (
-    <div className="flex justify-between items-center px-2 md:px-4 py-2 bg-white ">
-  <img src={logo} alt="logo" className="h-12 md:h-14 object-contain" />
+import { useContext} from "react";
+import { SearchResultContext } from "@/context/searchcontext";
+import { FaSearch } from "react-icons/fa";
 
-  <div className="flex items-center gap-4">
+const Navbar = () => {
+
+ const navigate = useNavigate();
+const {searchText,setSearchText}=useContext(SearchResultContext);
+
+const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+setSearchText(e.target.value);
+navigate(`/search/${e.target.value}`)
+if(e.target.value === " "){
+navigate("/movies");
+}
+// console.log(searchText)
+}
+
+const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
+e.preventDefault();
+navigate(`/search/${searchText}`)
+
+}
+  return (
+  <div className="p-3">
+   <div className=" flex justify-between items-center gap-20">
+    <NavLink to="/">
+  <img 
+    src={logo}
+    alt="logo"
+    className="h-12 md:h-14 object-contain cursor-pointer"
+    onClick={() => navigate("/")}
+  />
+  </NavLink>
+  <form onSubmit={handleSubmit} className="py-3 w-full">
+  <div className="relative w-full md:w-200">
     <input
       type="text"
       placeholder="Search..."
-      className="rounded-full border border-gray-300 px-3 py-1 text-sm shadow-sm outline-none"
+      className="w-full border border-blue-300 px-4 py-3 pr-10 rounded-full shadow-lg outline-none "
+      value={searchText}
+      onChange={handleChange}
     />
-    <div className="hidden md:flex gap-4 text-sm font-medium text-gray-700">
-      <Genre/>
-      <Link to="/movies" className="hover:text-indigo-600">Movies</Link>
-      <Link to="/tvshows" className="hover:text-indigo-600">TV Shows</Link>
-    </div>
+    <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500" />
   </div>
+</form>
+
+</div>
+
+    <div className="flex justify-around items-center text-bold text-2xl">
+      <Genre/>
+      <Link to="/movies" className="hover:text-indigo-900">Movies</Link>
+      <Link to="/tvshows" className="hover:text-indigo-900">TV Shows</Link>
+    </div>
+ 
 </div>
 
   )

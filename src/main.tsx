@@ -4,12 +4,16 @@ import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router'
 import { GenreProvider } from './context/genrecontext.tsx'
+import { SearchProvider } from './context/searchcontext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>   
     <BrowserRouter>
-    <GenreProvider><App /></GenreProvider>
+     <SearchProvider>
+      <GenreProvider>
+       <App />
+      </GenreProvider>
+    </SearchProvider>
     </BrowserRouter>
-    
   </StrictMode>,
 )

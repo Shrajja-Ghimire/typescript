@@ -1,12 +1,15 @@
 import type { MovieResult } from "@/hooks/useMovies"
+import { useNavigate } from "react-router";
 
 interface Props{
 movieResult: MovieResult
 }
 const Moviecard = ({movieResult} :Props) => {
+const navigate=useNavigate();
+
   return (
    
-    <div className="overflow-hidden shadow-md bg-white ">
+    <div className="overflow-hidden shadow-md bg-white " onClick={()=>{navigate(`/player/movie/${movieResult.id}`)}}>
     <img
       src={`https://image.tmdb.org/t/p/w500${movieResult.poster_path}`}
       alt="Poster"
